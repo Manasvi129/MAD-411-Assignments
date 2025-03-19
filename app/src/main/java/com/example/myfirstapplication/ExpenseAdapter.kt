@@ -1,5 +1,6 @@
 package com.example.myfirstapplication
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ class ExpenseAdapter(private val expenses: MutableList<Expense>) : RecyclerView.
         val nameTextView: TextView = itemView.findViewById(R.id.expenseNameTextView)
         val amountTextView: TextView = itemView.findViewById(R.id.expenseAmountTextView)
         val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        val showDetailsButton: Button = itemView.findViewById(R.id.showDetailsButton)
     }
 
     // inflates the layout for each expense item
@@ -22,17 +24,26 @@ class ExpenseAdapter(private val expenses: MutableList<Expense>) : RecyclerView.
         val view = LayoutInflater.from(parent.context).inflate(R.layout.expense, parent, false)
         return ExpenseViewHolder(view)
     }
-     //binds the data to view
-    override fun onBindViewHolder(expenseViewHolder: ExpenseViewHolder, position: Int) {
+
+    //binds the data to view
+    override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val expense = expenses[position]
-        expenseViewHolder.nameTextView.text = expense.name
-        expenseViewHolder.amountTextView.text = expense.amount.toString()
+        holder.nameTextView.text = expense.name
+        holder.amountTextView.text = expense.amount.toString()
 
         //delete button
-        expenseViewHolder.deleteButton.setOnClickListener {
+        holder.deleteButton.setOnClickListener {
             expenses.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, expenses.size)
+        }
+        holder.showDetailsButton.setOnClickListener {
+            val intent =
+                Intent(holder.itemView.context, ExpenseDetailsActivity::class.java)
+            intent.putExtra("EXPENSE_NAME", expense.name)
+            intent.putExtra("EXPENSE_AMOUNT", expense.amount)
+            intent.putExtra("EXPENSE_DATE", expense.date)
+            holder.itemView.context.startActivity(intent)
         }
     }
 

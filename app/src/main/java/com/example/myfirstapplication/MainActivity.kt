@@ -1,5 +1,7 @@
 package com.example.myfirstapplication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -83,6 +85,12 @@ class MainActivity : AppCompatActivity() {
         expenseNameEditText.text.clear()
         amountEditText.text.clear()
         dateEditText.text.clear()
+    }
+
+    private fun openFinancialTips() {
+        val url = "https://www.fsrao.ca"
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 
 }
