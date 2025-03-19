@@ -1,6 +1,7 @@
 package com.example.myfirstapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("MainActivityLifecycle", "onCreate called")
 
         // Initialize new UI for Expense Tracker application
         expenseNameEditText = findViewById(R.id.expenseNameEditText)
@@ -37,6 +39,32 @@ class MainActivity : AppCompatActivity() {
             addExpenseClick()
         }
     }
+//added log
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivityLifecycle", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivityLifecycle", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MainActivityLifecycle", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MainActivityLifecycle", "onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MainActivityLifecycle", "onDestroy called")
+    }
+
 
 
     private fun addExpenseClick() {
