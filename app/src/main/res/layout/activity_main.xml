@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="250dp"
-    tools:context="com.example.myfirstapplication.MainActivity">
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter your name:"
-        android:textSize="24sp" />
-
+        android:text="Expense Tracker Application"
+        android:textSize="24sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
 
     <EditText
-        android:id="@+id/nameEditText"
+        android:id="@+id/expenseNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:hint="enter expense Name"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/amountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter Amount"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/dateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter Date"
+        android:inputType="date"
+        android:minHeight="48dp"
+        android:layout_marginTop="8dp" />
 
     <Button
-        android:id="@+id/showNameButton"
+        android:id="@+id/addExpenseButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Name"
-        android:layout_marginTop="20dp"
-        android:onClick="showNameClick" />
+        android:text="Add Expense"
+        android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/displayNameTextView"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/expensesRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>
