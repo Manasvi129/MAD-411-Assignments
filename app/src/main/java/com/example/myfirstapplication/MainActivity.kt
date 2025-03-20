@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var expensesRecyclerView: RecyclerView
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expensesList = ArrayList<Expense>()
+    private lateinit var footerFragment: FooterFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +34,32 @@ class MainActivity : AppCompatActivity() {
         addExpenseButton = findViewById(R.id.addExpenseButton)
         expensesRecyclerView = findViewById(R.id.expensesRecyclerView)
 
+
+
+        // Add Header and Footer Fragments dynamically
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+
+        val headerFragment = HeaderFragment()
+        footerFragment = FooterFragment() // Initialize footerFragment
+
+        transaction.add(R.id.headerContainer, headerFragment)
+        transaction.add(R.id.footerContainer, footerFragment)
+        transaction.commit()
+
         // RecyclerView
         expensesRecyclerView.layoutManager = LinearLayoutManager(this)
-        expenseAdapter = ExpenseAdapter(expensesList)
+        expenseAdapter = ExpenseAdapter(expensesList, footerFragment)
         expensesRecyclerView.adapter = expenseAdapter
 
         addExpenseButton.setOnClickListener {
             addExpenseClick()
         }
+
     }
-//added log
+
+
+    //added log
     override fun onStart() {
         super.onStart()
         Log.d("MainActivityLifecycle", "onStart called")
@@ -78,8 +96,7 @@ class MainActivity : AppCompatActivity() {
         val amount = amountString.toDoubleOrNull() ?: 0.0
         val expense = Expense(name, amount, date)
 
-        expensesList.add(expense)
-        expenseAdapter.notifyItemInserted(expensesList.size - 1)
+        expenseAdapter.addExpense(expense)
 
         // Clear the input fields for the next entery
         expenseNameEditText.text.clear()
@@ -88,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFinancialTips() {
-        val url = "https://www.fsrao.ca"
+        val url = "https://www.investopedia.com"
         intent.data = Uri.parse(url)
         startActivity(intent)
     }

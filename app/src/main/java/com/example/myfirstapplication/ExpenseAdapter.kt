@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 // Implements the ViewHolder pattern for efficient view recycling
-class ExpenseAdapter(private val expenses: MutableList<Expense>) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
+class ExpenseAdapter(private val expenses: MutableList<Expense>, private val footerFragment: FooterFragment) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
 
     // ExpenseViewHolder
     class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,13 +33,14 @@ class ExpenseAdapter(private val expenses: MutableList<Expense>) : RecyclerView.
 
         //delete button
         holder.deleteButton.setOnClickListener {
+            val amount = expense.amount
             expenses.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, expenses.size)
+            footerFragment.updateTotalAmount(-amount)
         }
         holder.showDetailsButton.setOnClickListener {
-            val intent =
-                Intent(holder.itemView.context, ExpenseDetailsActivity::class.java)
+            val intent = Intent(holder.itemView.context, ExpenseDetailsActivity::class.java)
             intent.putExtra("EXPENSE_NAME", expense.name)
             intent.putExtra("EXPENSE_AMOUNT", expense.amount)
             intent.putExtra("EXPENSE_DATE", expense.date)
@@ -50,5 +51,11 @@ class ExpenseAdapter(private val expenses: MutableList<Expense>) : RecyclerView.
     //return the result item
     override fun getItemCount(): Int {
         return expenses.size
+    }
+
+    fun addExpense(expense: Expense) {
+        expenses.add(expense)
+        notifyItemInserted(expenses.size - 1)
+        footerFragment.updateTotalAmount(expense.amount)
     }
 }
