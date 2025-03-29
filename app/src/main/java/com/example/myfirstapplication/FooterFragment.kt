@@ -33,4 +33,6 @@ class FooterFragment : Fragment() {
     private fun updateTotalAmountText() {
         totalAmountTextView.text = "Total Expenses is : $totalAmount"
     }
+
+
 }
