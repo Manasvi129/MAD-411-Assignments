@@ -1,18 +1,19 @@
 package com.example.myfirstapplication
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 
 class ExpenseAdapter(
-    private val context: Context,
     private val expenses: MutableList<Expense>,
-    private val footerFragment: FooterFragment
+    private val navController: NavController,
+    private val updateTotalAmount: (Double) -> Unit,
+    private val saveExpensesToFile: () -> Unit
 ) : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
 
     class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,23 +33,27 @@ class ExpenseAdapter(
         holder.nameTextView.text = expense.name
         holder.amountTextView.text = expense.amount.toString()
 
+        // Delete button functionality
         holder.deleteButton.setOnClickListener {
             val amount = expense.amount
             expenses.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, expenses.size)
-            footerFragment.updateTotalAmount(-amount)
+            updateTotalAmount(-amount)
 
             // Save updated list to file
-            (context as MainActivity).saveExpensesToFile()
+            saveExpensesToFile()
         }
 
+        // Show details button functionality using SafeArgs
         holder.showDetailsButton.setOnClickListener {
-            val intent = Intent(holder.itemView.context, ExpenseDetailsActivity::class.java)
-            intent.putExtra("EXPENSE_NAME", expense.name)
-            intent.putExtra("EXPENSE_AMOUNT", expense.amount)
-            intent.putExtra("EXPENSE_DATE", expense.date)
-            holder.itemView.context.startActivity(intent)
+            val action = ExpenseListFragmentDirections
+                .actionExpenseListToExpenseDetails(
+                    expenseName = expense.name,
+                    expenseAmount = expense.amount.toFloat(),
+                    expenseDate = expense.date
+                )
+            navController.navigate(action)
         }
     }
 
@@ -59,9 +64,8 @@ class ExpenseAdapter(
     fun addExpense(expense: Expense) {
         expenses.add(expense)
         notifyItemInserted(expenses.size - 1)
-        footerFragment.updateTotalAmount(expense.amount)
+        updateTotalAmount(expense.amount)
 
-        // Save updated list to file
-        (context as MainActivity).saveExpensesToFile()
+        saveExpensesToFile()
     }
 }
