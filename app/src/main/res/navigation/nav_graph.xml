@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/expenseListFragment">
+
+    <!-- Expense List Fragment (Main Screen) -->
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="com.example.myfirstapplication.ExpenseListFragment"
+        android:label="Expense List"
+        tools:layout="@layout/fragment_expense_list">
+
+        <!-- Navigation action to ExpenseDetailsFragment -->
+        <action
+            android:id="@+id/action_expenseListToExpenseDetails"
+            app:destination="@id/expenseDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/expenseDetailsFragment"
+        android:name="com.example.myfirstapplication.ExpenseDetailsFragment"
+        android:label="Expense Details"
+        tools:layout="@layout/fragment_expense_details">
+
+        <argument
+            android:name="expenseName"
+            app:argType="string" />
+        <argument
+            android:name="expenseAmount"
+            app:argType="float" />
+        <argument
+            android:name="expenseDate"
+            app:argType="string" />
+    </fragment>
+
+</navigation>
