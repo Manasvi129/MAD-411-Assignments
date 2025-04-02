@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var amountEditText: EditText
     private lateinit var dateEditText: EditText
     private lateinit var addExpenseButton: Button
+    private lateinit var FinancialTips : Button
     private lateinit var expensesRecyclerView: RecyclerView
     private lateinit var expenseAdapter: ExpenseAdapter
     private val expensesList = ArrayList<Expense>()
@@ -33,6 +34,13 @@ class MainActivity : AppCompatActivity() {
         dateEditText = findViewById(R.id.dateEditText)
         addExpenseButton = findViewById(R.id.addExpenseButton)
         expensesRecyclerView = findViewById(R.id.expensesRecyclerView)
+        FinancialTips = findViewById(R.id.financialTipsButton)
+        FinancialTips.setOnClickListener {
+            val url = "https://www.investopedia.com"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }
 
 
 
@@ -104,10 +112,6 @@ class MainActivity : AppCompatActivity() {
         dateEditText.text.clear()
     }
 
-    private fun openFinancialTips() {
-        val url = "https://www.investopedia.com"
-        intent.data = Uri.parse(url)
-        startActivity(intent)
-    }
+
 
 }
