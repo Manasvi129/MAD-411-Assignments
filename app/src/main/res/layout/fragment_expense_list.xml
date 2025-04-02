@@ -48,6 +48,8 @@
         android:text="Add Expense"
         android:layout_marginTop="16dp" />
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expensesRecyclerView"
         android:layout_width="match_parent"
